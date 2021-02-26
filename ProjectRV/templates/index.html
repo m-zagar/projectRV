@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <title>Intermodulacijski proizvodi i distorzija</title>
+
+    <script type="text/javascript" src="https://www.hostmath.com/Math/MathJax.js?config=OK"></script>
+    <script src="https://kit.fontawesome.com/273f6c59e3.js" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <script type="text/javascript">
+      function validateInputs(){
+        var a = document.forms["input-form"]["a1"].value;
+        var b = document.forms["input-form"]["a2"].value;
+        var c = document.forms["input-form"]["a3"].value;
+        var d = document.forms["input-form"]["a0"].value;
+        var e = document.forms["input-form"]["V"].value;
+        var f = document.forms["input-form"]["w1"].value;
+        var g = document.forms["input-form"]["w2"].value;
+        if ((a == null || a == '') || (b == null || b == '') || (c == null || c == '') || (d == null || d == '') || (e == null || e == '') || (f == null || f == '') || (g == null || g == '')){
+          alert("Molimo unesite sve varijable!");
+          return false;
+        }
+      }
+    </script>
+
+  </head>
+
+  <body>
+  
+    <h1 id="title">Intermodulacijski proizvodi i distorzija</h1>
+    <hr/>
+    
+    <div id="containerEqu">
+      <div class="equation" style="border-right:1px solid black">
+        <p style="font-size:25px">Ulazni signal:<p>
+        <p>\[v_{i}=V_{i}\cos(\omega_0t)\]</p> 
+      </div>
+      <div class="equation" style="border-right:1px solid black">
+        <p style="font-size:25px">Taylorov red:<p> 
+        <p>\[v_{0}=a_{0}+a_{1}v_{i}+a_{2}v_i^2+a_{3}v_i^3\]</p>
+      </div>
+      <div class="equation">
+        <p style="font-size:25px">Intermodulacijski proizvodi:<p>
+        <p>\[m\omega_1+n\omega_2\] \[m,n=0,\pm1,\pm2,\pm3\]</p>
+      </div>
+    </div>
+    
+    <br/>
+
+    <div id="text-container" style="background-color: white;">
+      <p class="text">
+        Ako se ulazni signal sastoji od 2 frekvencije
+      </p>
+      <p class="text-equ">
+        \[v_{i}=V_{i}(cos \omega_{1}t+cos \omega_{2}t)\]
+      </p>
+      <p class="text">
+        onda po jednadžbi Taylorovog reda dobijemo
+      </p>
+      <p class="text-equ">
+        \[v_{0}=a_{0}+a_{1}(V_{i}(cos \omega_{1}t+cos \omega_{2}t))+a_{2}(V_{i}(cos \omega_{1}t+cos \omega_{2}t))^2+a_{3}(V_{i}(cos \omega_{1}t+cos \omega_{2}t))^3\] 
+      </p>
+      <p class="text">
+        te nastanu i druge frekvencije kojih nije bilo na ulaznom signalu -> to su intermodulacijski proizvodi
+      </p>
+        </br>
+        <div class="info">
+          <a href="{{ url_for('equation') }}" target="_blank">
+            <i class="fas fa-info-circle"></i>
+          </a>
+          <span class="tooltiptext">Klikni za detaljnu analizu jednadžbe!</span>
+        </div>
+    </div>
+
+
+    <p style="text-align: center; color:white; font-size:30px; font-weight: bold; margin-bottom: -20px;">Unesite varijable:</p>
+    </br>
+      
+    <form name="input-form" action="/plot/" method="post" onsubmit="return validateInputs()">
+
+      <div id="inputForms">
+        <div class="input">
+          <p><i>a<span class="small-num">0</span>:</i></p>
+          <input type="number" id="a0" name="a0" class="input-box">
+        </div>
+        <div class="input">
+          <p><i>a<span class="small-num">1</span>:</i></p>
+          <input type="number" id="a1" name="a1" class="input-box">
+        </div>
+        <div class="input">
+          <p><i>a<span class="small-num">2</span>:</i></p>
+          <input type="number" id="a2" name="a2" class="input-box">
+        </div>
+        <div class="input">
+          <p><i>a<span class="small-num">3</span>:</i></p>
+          <input type="number" id="a3" name="a3" class="input-box">
+        </div>
+        <div class="input">
+          <p><i>V<span class="small-num">i</span>:</i></p>
+          <input type="number" id="V" name="V" class="input-box">
+        </div>
+      </div>
+
+      <div id="inputForms">
+        <div class="input">
+        </div>
+        <div class="input">
+          <p><i>&#969<span class="small-num">1</span>:</i></p>
+          <input type="number" name="w1" class="input-box">
+        </div>
+        <div class="input">
+        </div>
+        <div class="input">
+          <p><i>&#969<span class="small-num">2</span>:</i></p>
+          <input type="number" name="w2" class="input-box">
+        </div>
+        <div class="input">
+        </div>
+      </div>
+
+      <br/><br/><br/><br/>
+
+     <div class="button-div">
+       <input type="submit" class="submit-button" value="OK" name="ok">
+     </div>
+
+    </form>
+
+    <img src="{{ image }}"/>
+
+    <form action="/" method="get">
+      
+        <br/><br/>
+
+        <div class="button-div">
+          <input type="submit" class="submit-button" value="RESET" name="reset">
+        </div>
+
+    </form>
+
+  <br/><br/>
+
+  {% if valuew1 %}
+  <div class="table-div" style="width:50%; margin-left: 25%">
+    <table class="table">
+      <tr>
+        <td>{{ wlabels[2] }}</td>
+        <td>{{ wlabels[3] }}</td>
+      <tr>
+      <tr>
+        <td>{{ valuew1 }}</td>
+        <td>{{ valuew2 }}</td>
+      <tr>
+    </table>
+  </div>
+  {% endif %}
+
+  <br/><br/>
+
+  {% if valuew1 %}
+  <div class="table-div">
+    <table class="table">
+      <tr>
+        <td></td>
+        {% for label in wlabels %}
+        <td>{{ label }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td></td>
+        {% for value in wvalues %}
+        <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for a in avalues %}
+        <td>{{ a }}</td>
+        {% endfor %}
+      </tr>
+     </table>
+  </div>
+  {% endif %}
+    
+  <div class="footer-div">
+    <footer class="footer" style="text-align: left">
+      <p>Autor: Matija Žagar</p>
+      <p>Mentor: prof. dr. sc. Miroslav Joler</p>
+    </footer>
+    <footer class="footer" style="text-align: right;">
+      <p>Tehnički fakultet, Rijeka, 2021.</p>
+      <p>&copy 2021. Matija Žagar</p>
+    <footer>
+  </div>
+	
+  </body>
+
+</html>
